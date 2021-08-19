@@ -18,7 +18,7 @@ class EncryptDecrypt:
         """
         Loads the current key.
         """
-        file = open("secret.key", "rb")
+        file = open("password-manager/secret.key", "rb")
         k = file.read()
         file.close()
         return k
