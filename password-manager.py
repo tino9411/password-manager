@@ -71,6 +71,58 @@ def view_password():
         else:
             print("Password is incorrect!! Please try again")
 
+def change_master():
+
+        print('''
+    ---------------------------------- 
+          CHANGE MASTER EMAIL
+    ----------------------------------
+    Press Q to return to the main menu
+    ---------------------------------- \n''')
+
+        not_correct = True
+        
+        while not_correct:
+            email = input("Please enter the master email: ")
+            get_email = MPDatabase()
+            master_email = get_email.get_master_email()
+            if email == master_email:
+                password = getpass("Password: ")
+                get = MPDatabase()
+                confirm =  get.get_master_password()
+            if confirm == password:
+                pwd = input("Please enter the a password to hash: ")
+                edit = MPDatabase()
+                edit.update_master_password(email, pwd)
+                print()
+                print("Master password has been generated and sent to your email address.".upper())
+                menu()
+            elif email != master_email:
+                print("Incorrect email!")
+
+            else:
+                print("Details are incorrect!! Please try again")
+
+def view():
+    to_view = True
+    while to_view:
+        app = input("Enter the name of the app: ")
+        find = MPDatabase()
+        find.find(app)
+        print()
+        choice = input("Would you like to view another? [Y/y N/n]: ")
+        if choice == 'y':
+            to_view = True
+        elif choice == 'n':
+            menu()
+        elif choice == 'q':
+            menu()
+        elif choice == '':
+            print("Please choose Y/y or N/n. Press q to return to the main menu: ")
+        else:
+            print("Please choose Y/y or N/n. Press q to return to the main menu: ")
+
+
 def menu():
     print('''
     ----------------------------------
@@ -92,9 +144,9 @@ def menu():
     elif choice == '2':
         view_password()
     elif choice == '3':
-         pass
+        view()
     elif choice == '4':
-         pass
+         change_master()
 
 
 if __name__ == '__main__':

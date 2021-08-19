@@ -75,13 +75,9 @@ class MPDatabase:
             if conn is not None:
                 conn.close()
 
-    def update_master_password(self):
-        conn = None
+    def update_master_password(self, email, pwd):
         try:
-            email = input("Please type in your email address: ")
-            pwd = input("Please type in a new password: ")
             hashpwd = set_password(pwd)
-
             # create table 
             query = '''UPDATE master_credentials SET master_password = %s WHERE master_email = %s'''
             data_to_insert = (hashpwd, email)
@@ -93,8 +89,8 @@ class MPDatabase:
         except (Exception, psycopg2.DatabaseError) as error:
             print(error)
         finally:
-            if conn is not None:
-                conn.close()
+            if self.conn is not None:
+                self.conn.close()
 
     def update_master_email(self, pwd, email):
         try:
