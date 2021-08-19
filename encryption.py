@@ -11,14 +11,14 @@ class EncryptDecrypt:
         """
         Generates a new key and saves it to a file.
         """
-        with open("password-manager/secret.key", "wb") as key_file:
+        with open("secret.key", "wb") as key_file:
             key_file.write(self.key)
 
     def load_key(self):
         """
         Loads the current key.
         """
-        file = open("password-manager/secret.key", "rb")
+        file = open("secret.key", "rb")
         k = file.read()
         file.close()
         return k
@@ -34,6 +34,7 @@ class EncryptDecrypt:
         return epwd
     
     def decrypt_password(self, epwd):
+
         """ 
         Decrypts the password so the user can retrieve it
         """
@@ -44,3 +45,6 @@ class EncryptDecrypt:
         return pwd
 
 
+'''e = EncryptDecrypt()
+p = e.encrypt_password("hello")
+print(p)'''

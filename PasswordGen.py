@@ -37,3 +37,11 @@ def set_password(text, length=10, alphabet=ALPHABET):
         chars.append(alphabet[i])
 
     return ''.join(chars)
+
+'''pwd = set_password("password")
+print(pwd)
+k = encryption.EncryptDecrypt()
+ep = k.encrypt_password(pwd)
+print(ep)
+
+'''
