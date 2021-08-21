@@ -1,12 +1,33 @@
 from getpass import getpass
 from database import MPDatabase
+
+def setup():
+    t = MPDatabase()
+    t.create_master_table()
+    print("Enter your email: ")
+    email = input()
+    password = input("Enter a password to hash: ")
+def login():
+
+    while True:
+        print("Email: ")
+        email = input()
+        password = getpass()
+        check = MPDatabase()
+        correct = check.check_login(email, password)
+        if correct:
+            menu()
+        else:
+            print("Incorrect login details!")
+
 def title():
     print('''
 
     ----------------------------------
-            PASSWORD MANAGER
+        WELCOME TO PASSWORD MANAGER
     ----------------------------------        
      ''')
+
 def add_password():
 
     pwd_not_added = True
@@ -75,7 +96,7 @@ def change_master():
 
         print('''
     ---------------------------------- 
-          CHANGE MASTER EMAIL
+          CHANGE MASTER PASSWORD
     ----------------------------------
     Press Q to return to the main menu
     ---------------------------------- \n''')
@@ -84,21 +105,22 @@ def change_master():
         
         while not_correct:
             email = input("Please enter the master email: ")
+            get = MPDatabase()
+            confirm =  get.get_master_password()
             get_email = MPDatabase()
             master_email = get_email.get_master_email()
             if email == master_email:
                 password = getpass("Password: ")
-                get = MPDatabase()
-                confirm =  get.get_master_password()
-            if confirm == password:
-                pwd = input("Please enter the a password to hash: ")
-                edit = MPDatabase()
-                edit.update_master_password(email, pwd)
-                print()
-                print("Master password has been generated and sent to your email address.".upper())
+                if confirm == password:
+                    pwd = input("Please enter the a password to hash: ")
+                    edit = MPDatabase()
+                    edit.update_master_password(email, pwd)
+                    print()
+                    print("Master password has been generated and sent to your email address.".upper())
+                    menu()
+
+            elif email == 'q' or 'Q':
                 menu()
-            elif email != master_email:
-                print("Incorrect email!")
 
             else:
                 print("Details are incorrect!! Please try again")
@@ -107,8 +129,12 @@ def view():
     to_view = True
     while to_view:
         app = input("Enter the name of the app: ")
-        find = MPDatabase()
-        find.find(app)
+        password = getpass("Password: ")
+        get = MPDatabase()
+        confirm =  get.get_master_password()
+        if confirm == password:
+            find = MPDatabase()
+            find.find(app)
         print()
         choice = input("Would you like to view another? [Y/y N/n]: ")
         if choice == 'y':
@@ -121,7 +147,6 @@ def view():
             print("Please choose Y/y or N/n. Press q to return to the main menu: ")
         else:
             print("Please choose Y/y or N/n. Press q to return to the main menu: ")
-
 
 def menu():
     print('''
@@ -153,5 +178,11 @@ if __name__ == '__main__':
     title()
 
 while True:
-    menu()
+
+    t = MPDatabase()
+    table_empty = t.is_empty()
+    if table_empty:
+        setup()
+    else:
+        login()
     

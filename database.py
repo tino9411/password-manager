@@ -157,7 +157,6 @@ class MPDatabase:
         return pwd
 
     def check_login(self, email, pwd):
-        match = False
         em = MPDatabase()
         password = MPDatabase()
         e = em.get_master_email()
